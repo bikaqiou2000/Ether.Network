@@ -12,7 +12,13 @@ namespace Ether.Network.Packets
         public bool IncludeHeader => false;
 
         /// <inheritdoc />
-        public int GetMessageLength(byte[] buffer) => BitConverter.ToInt32(buffer.Take(HeaderSize).ToArray(), 0);
+        /// <inheritdoc />
+        public int GetMessageLength(byte[] buffer) 
+        {
+            return BitConverter.ToInt32(BitConverter.IsLittleEndian 
+                ? buffer.Take(HeaderSize).Reverse().ToArray() 
+                : buffer.Take(HeaderSize).ToArray(), 0);
+        }
 
         /// <inheritdoc />
         public INetPacketStream CreatePacket(byte[] buffer) => new NetPacket(buffer);
