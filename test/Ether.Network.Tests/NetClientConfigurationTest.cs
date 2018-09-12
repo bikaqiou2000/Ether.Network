@@ -5,62 +5,65 @@ using Xunit;
 
 namespace Ether.Network.Tests
 {
-    public class NetClientConfigurationTest
+    public class NetClientConfigurationTest : IDisposable
     {
+        private readonly ConfigServer _server;
+
+        public NetClientConfigurationTest()
+        {
+            this._server = new ConfigServer();
+        }
+
         [Fact]
         public void StartClientWihtoutConfiguration()
         {
-            using (var server = new ConfigServer())
+            this._server.SetupConfiguration();
+            this._server.Start();
+
+            using (var client = new ConfigClient())
             {
-                server.SetupConfiguration();
-                server.Start();
+                Exception ex = Assert.Throws<EtherConfigurationException>(() => client.Connect());
+                Assert.IsType<EtherConfigurationException>(ex);
 
-                using (var client = new ConfigClient())
-                {
-                    Exception ex = Assert.Throws<EtherConfigurationException>(() => client.Connect());
-                    Assert.IsType<EtherConfigurationException>(ex);
-
-                    client.Disconnect();
-                }
+                client.Disconnect();
             }
         }
 
         [Fact]
         public void StartClientWithConfiguration()
         {
-            using (var server = new ConfigServer())
-            {
-                server.SetupConfiguration();
-                server.Start();
+            this._server.SetupConfiguration();
+            this._server.Start();
 
-                using (var client = new ConfigClient())
-                {
-                    client.SetupConfiguration();
-                    client.Connect();
-                    client.Disconnect();
-                }
+            using (var client = new ConfigClient())
+            {
+                client.SetupConfiguration();
+                client.Connect();
+                client.Disconnect();
             }
         }
 
         [Fact]
         public void SetupClientConfigurationAfterConnected()
         {
-            using (var server = new ConfigServer())
+            this._server.SetupConfiguration();
+            this._server.Start();
+
+            using (var client = new ConfigClient())
             {
-                server.SetupConfiguration();
-                server.Start();
+                client.SetupConfiguration();
+                client.Connect();
 
-                using (var client = new ConfigClient())
-                {
-                    client.SetupConfiguration();
-                    client.Connect();
+                Exception ex = Assert.Throws<EtherConfigurationException>(() => client.SetupConfiguration());
+                Assert.IsType<EtherConfigurationException>(ex);
 
-                    Exception ex = Assert.Throws<EtherConfigurationException>(() => client.SetupConfiguration());
-                    Assert.IsType<EtherConfigurationException>(ex);
-
-                    client.Disconnect();
-                }
+                client.Disconnect();
             }
+        }
+
+        public void Dispose()
+        {
+            this._server.Dispose();
         }
     }
 }
