@@ -108,6 +108,7 @@ namespace Ether.Network.Tests
 
         public void Dispose()
         {
+            this._server.Stop();
             this._server.Dispose();
         }
     }
