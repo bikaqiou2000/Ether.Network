@@ -67,9 +67,9 @@ namespace Ether.Network.Tests
 
             byte[] testValue = null;
 
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
-                using (BinaryWriter binaryWriter = new BinaryWriter(memoryStream))
+                using (var binaryWriter = new BinaryWriter(memoryStream))
                 {
                     binaryWriter.Write(ByteArrayValue.Length);
                     binaryWriter.Write(ByteArrayValue);

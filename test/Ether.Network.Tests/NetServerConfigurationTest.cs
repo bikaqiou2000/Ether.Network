@@ -5,56 +5,57 @@ using Xunit;
 
 namespace Ether.Network.Tests
 {
-    public class NetServerConfigurationTest
+    public class NetServerConfigurationTest : IDisposable
     {
+        private readonly ConfigServer _server;
+
+        public NetServerConfigurationTest()
+        {
+            this._server = new ConfigServer();
+        }
+
         [Fact]
         public void StartServerWithoutConfiguration()
         {
-            using (var server = new ConfigServer())
-            {
-                Exception ex = Assert.Throws<EtherConfigurationException>(() => server.Start());
+            Exception ex = Assert.Throws<EtherConfigurationException>(() => this._server.Start());
 
-                Assert.IsType<EtherConfigurationException>(ex);
-            }
+            Assert.IsType<EtherConfigurationException>(ex);
         }
 
         [Fact]
         public void SetupServerConfigurationBeforeStart()
         {
-            using (var server = new ConfigServer())
-            {
-                server.SetupConfiguration();
-                server.Start();
-            }
+            this._server.SetupConfiguration();
+            this._server.Start();
         }
 
         [Fact]
         public void SetupServerConfigurationAfterStart()
         {
-            using (var server = new ConfigServer())
-            {
-                server.SetupConfiguration();
-                server.Start();
+            this._server.SetupConfiguration();
+            this._server.Start();
 
-                Exception ex = Assert.Throws<EtherConfigurationException>(() => server.SetupConfiguration());
+            Exception ex = Assert.Throws<EtherConfigurationException>(() => this._server.SetupConfiguration());
 
-                Assert.IsType<EtherConfigurationException>(ex);
-            }
+            Assert.IsType<EtherConfigurationException>(ex);
         }
 
         [Fact]
         public void SetupServerConfigurationAfterStartStop()
         {
-            using (var server = new ConfigServer())
-            {
-                server.SetupConfiguration();
-                server.Start();
-                server.Stop();
+            this._server.SetupConfiguration();
+            this._server.Start();
+            this._server.Stop();
 
-                server.SetupConfiguration();
-                server.Start();
-                server.Stop();
-            }
+            this._server.SetupConfiguration();
+            this._server.Start();
+            this._server.Stop();
+        }
+
+        public void Dispose()
+        {
+            this._server.Stop();
+            this._server.Dispose();
         }
     }
 }
