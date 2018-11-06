@@ -1,51 +1,12 @@
-# ![logo](https://raw.githubusercontent.com/Eastrall/Ether.Network/master/resources/banner.png)
+# Ether.Network
 
-[![forthebadge](http://forthebadge.com/images/badges/made-with-c-sharp.svg)](http://forthebadge.com)
-[![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
+Ether.Network is being rewrited and renamed into [Sylver](https://github.com/Eastrall/Sylver).
+It is far more than a simple rewrite and project renaming. 
 
-[![Build Status](https://travis-ci.org/Eastrall/Ether.Network.svg?branch=develop)](https://travis-ci.org/Eastrall/Ether.Network)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e84d77087d6940f79061799383cc1432)](https://www.codacy.com/app/Eastrall/Ether.Network?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Eastrall/Ether.Network&amp;utm_campaign=Badge_Grade)
-[![NuGet Status](https://img.shields.io/nuget/v/Ether.Network.svg)](https://www.nuget.org/packages/Ether.Network/)
+In fact, a lot of things were missing in Ether.Network like real documentation and guides that describe how to setup a TCP server for instance; because at the begining, the project was a POC (proof of concept) for one of my personal projects. It is one of my first open-source project with contributors and I am very happy of the results we had together.
 
-Ether.Network is a basic library to make quickly a simple server or client using sockets.
 
-This library is coded with C# using .NET Core framework to target Windows and Linux operating systems.
 
-## Framework support
+All of the issues, suggestions, pull requests in progress will be added to [Sylver]
 
-- .NET Core 1.0 (netstandard1.3)
-- .NET Core 2.0 (netstandard2.0)
-- .NET Framework 4.5
-- .NET Framework 4.6
-
-## Features
-
-### Server
-
-- Client management
-- Broadcast packets to all connected users or a list of connected users.
-- Scalable configuration
-	- Maximum of connected users
-	- Bytes allocated per users
-
-### Client
-
-- Connect to a TCP server
-- Disconnect from a server
-- Send packets
-- Receieve packets
-- Scalable configuration
-	- Bytes allocated per users
-
-### Packets
-- Create packet streams
-- Read packet streams
-- Create your own packet processor
-
-## How to install
-
-Create a .NETCore project and add the nuget package: `Ether.Network` or you can do it manually in you NuGet console package manager :
-
-```
-$> Install-Package Ether.Network
-```
+[Sylver]:(https://github.com/Eastrall/Sylver)
